@@ -1,11 +1,18 @@
 import AppKit
 import Combine
 
+protocol AnimationEngineDelegate: AnyObject {
+    func animationEngineDidUpdatePosition(_ position: CGPoint, facingLeft: Bool)
+    func animationEngineDidChangeState(isWalking: Bool)
+}
+
 class AnimationEngine: ObservableObject {
     enum State {
         case walking
         case idle
     }
+
+    weak var delegate: AnimationEngineDelegate?
 
     @Published var position: CGPoint = .zero
     @Published var isWalking: Bool = false
@@ -62,12 +69,14 @@ class AnimationEngine: ObservableObject {
         }
 
         facingLeft = velocity.dx < 0
+        delegate?.animationEngineDidUpdatePosition(position, facingLeft: facingLeft)
     }
 
     private func transitionTo(_ newState: State) {
         stateTimer?.invalidate()
         state = newState
         isWalking = (newState == .walking)
+        delegate?.animationEngineDidChangeState(isWalking: isWalking)
 
         switch newState {
         case .walking:
