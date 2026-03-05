@@ -1,0 +1,13 @@
+import Foundation
+
+struct PokemonData: Codable, Identifiable, Hashable {
+    let name: String
+    let gen: Int
+
+    var id: String { name }
+
+    var displayName: String {
+        guard let first = name.first else { return name }
+        return first.uppercased() + name.dropFirst()
+    }
+}

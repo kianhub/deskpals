@@ -11,6 +11,9 @@
 		A10000000000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* AppDelegate.swift */; };
 		A10000000000000000000003 /* OverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* OverlayWindow.swift */; };
 		A10000000000000000000006 /* SpriteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* SpriteLoader.swift */; };
+		A10000000000000000000007 /* PokemonData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* PokemonData.swift */; };
+		A10000000000000000000008 /* SpriteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* SpriteImageView.swift */; };
+		A10000000000000000000009 /* OverlayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* OverlayContentView.swift */; };
 		A10000000000000000000004 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* Sprites */; };
 		A10000000000000000000005 /* pokemon.json in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* pokemon.json */; };
 /* End PBXBuildFile section */
@@ -23,6 +26,9 @@
 		A20000000000000000000005 /* Sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sprites; sourceTree = "<group>"; };
 		A20000000000000000000006 /* pokemon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pokemon.json; sourceTree = "<group>"; };
 		A20000000000000000000007 /* SpriteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteLoader.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* PokemonData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonData.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* SpriteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteImageView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000A /* OverlayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayContentView.swift; sourceTree = "<group>"; };
 		A20000000000000000000010 /* pokeOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pokeOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -69,6 +75,7 @@
 		A40000000000000000000004 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A20000000000000000000008 /* PokemonData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -77,6 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				A20000000000000000000003 /* OverlayWindow.swift */,
+				A20000000000000000000009 /* SpriteImageView.swift */,
+				A2000000000000000000000A /* OverlayContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,6 +190,9 @@
 				A10000000000000000000002 /* AppDelegate.swift in Sources */,
 				A10000000000000000000003 /* OverlayWindow.swift in Sources */,
 				A10000000000000000000006 /* SpriteLoader.swift in Sources */,
+				A10000000000000000000007 /* PokemonData.swift in Sources */,
+				A10000000000000000000008 /* SpriteImageView.swift in Sources */,
+				A10000000000000000000009 /* OverlayContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
