@@ -6,7 +6,7 @@ struct pokeOSApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            Text("pokeOS")
+            MenuBarContentView(settings: AppSettings.shared)
         } label: {
             Image(systemName: "circle.fill")
         }

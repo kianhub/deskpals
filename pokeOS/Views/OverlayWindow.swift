@@ -1,8 +1,11 @@
 import AppKit
+import Combine
 
 class OverlayWindow: NSWindow, AnimationEngineDelegate {
     private let overlayContentView: OverlayContentView
     private let animationEngine = AnimationEngine()
+    private let settings = AppSettings.shared
+    private var cancellables = Set<AnyCancellable>()
 
     init(contentRect: NSRect) {
         overlayContentView = OverlayContentView(frame: contentRect)
@@ -22,19 +25,76 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
         contentView = overlayContentView
 
         animationEngine.delegate = self
-        loadInitialSprite()
+        applySpriteScale()
+        loadSprite()
         updateEngineBounds()
         animationEngine.start()
+        observeSettings()
     }
 
-    private func loadInitialSprite() {
-        if let image = SpriteLoader.loadSprite(name: "pikachu", gen: 1, isShiny: false, isWalking: false) {
+    private func observeSettings() {
+        // Pokemon or shiny changed: reload sprite
+        settings.$selectedPokemon
+            .combineLatest(settings.$isShiny, settings.$selectedPokemonGen)
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _, _, _ in
+                self?.loadSprite()
+            }
+            .store(in: &cancellables)
+
+        // Rect dimensions changed: resize and reposition window
+        settings.$rectWidth
+            .combineLatest(settings.$rectHeight, settings.$rectX, settings.$rectY)
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] width, height, x, y in
+                guard let self else { return }
+                let newFrame = NSRect(x: x, y: y, width: width, height: height)
+                self.setFrame(newFrame, display: true)
+                self.overlayContentView.frame = NSRect(origin: .zero, size: newFrame.size)
+                self.updateEngineBounds()
+            }
+            .store(in: &cancellables)
+
+        // Visibility changed
+        settings.$isVisible
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] visible in
+                if visible {
+                    self?.orderFront(nil)
+                } else {
+                    self?.orderOut(nil)
+                }
+            }
+            .store(in: &cancellables)
+
+        // Sprite scale changed
+        settings.$spriteScale
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.applySpriteScale()
+                self?.updateEngineBounds()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func applySpriteScale() {
+        let size = 48.0 * settings.spriteScale
+        overlayContentView.spriteView.setFrameSize(NSSize(width: size, height: size))
+    }
+
+    private func loadSprite() {
+        let isWalking = animationEngine.isWalking
+        if let image = SpriteLoader.loadSprite(
+            name: settings.selectedPokemon,
+            gen: settings.selectedPokemonGen,
+            isShiny: settings.isShiny,
+            isWalking: isWalking
+        ) {
             overlayContentView.updateSpriteImage(image)
-            let spriteSize = overlayContentView.spriteView.frame.size
-            let centerX = (frame.width - spriteSize.width) / 2
-            let centerY = (frame.height - spriteSize.height) / 2
-            overlayContentView.updateSpritePosition(NSPoint(x: centerX, y: centerY))
-            animationEngine.position = CGPoint(x: centerX, y: centerY)
         }
     }
 
@@ -62,8 +122,6 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
     }
 
     func animationEngineDidChangeState(isWalking: Bool) {
-        if let image = SpriteLoader.loadSprite(name: "pikachu", gen: 1, isShiny: false, isWalking: isWalking) {
-            overlayContentView.updateSpriteImage(image)
-        }
+        loadSprite()
     }
 }

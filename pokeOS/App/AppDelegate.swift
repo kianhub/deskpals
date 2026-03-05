@@ -4,14 +4,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var overlayWindow: OverlayWindow?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        guard let screen = NSScreen.main else { return }
-        let windowSize = NSSize(width: 400, height: 300)
-        let origin = NSPoint(
-            x: screen.frame.midX - windowSize.width / 2,
-            y: screen.frame.midY - windowSize.height / 2
+        let settings = AppSettings.shared
+        let frame = NSRect(
+            x: settings.rectX,
+            y: settings.rectY,
+            width: settings.rectWidth,
+            height: settings.rectHeight
         )
-        let frame = NSRect(origin: origin, size: windowSize)
         overlayWindow = OverlayWindow(contentRect: frame)
-        overlayWindow?.makeKeyAndOrderFront(nil)
+        if settings.isVisible {
+            overlayWindow?.makeKeyAndOrderFront(nil)
+        }
     }
 }
