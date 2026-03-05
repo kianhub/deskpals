@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import ServiceManagement
 
 class AppSettings: ObservableObject {
     static let shared = AppSettings()
@@ -32,7 +33,18 @@ class AppSettings: ObservableObject {
         didSet { UserDefaults.standard.set(spriteScale, forKey: "spriteScale") }
     }
     @Published var launchAtLogin: Bool {
-        didSet { UserDefaults.standard.set(launchAtLogin, forKey: "launchAtLogin") }
+        didSet {
+            UserDefaults.standard.set(launchAtLogin, forKey: "launchAtLogin")
+            do {
+                if launchAtLogin {
+                    try SMAppService.mainApp.register()
+                } else {
+                    try SMAppService.mainApp.unregister()
+                }
+            } catch {
+                print("Launch at login failed: \(error)")
+            }
+        }
     }
 
     private init() {

@@ -69,6 +69,15 @@ struct MenuBarContentView: View {
 
             Divider()
 
+            VStack(alignment: .leading, spacing: 6) {
+                Text("System")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Toggle("Launch at Login", isOn: $settings.launchAtLogin)
+            }
+
+            Divider()
+
             Button("Quit") {
                 NSApplication.shared.terminate(nil)
             }
