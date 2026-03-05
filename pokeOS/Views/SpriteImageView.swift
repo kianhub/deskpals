@@ -21,4 +21,16 @@ class SpriteImageView: NSImageView {
         self.image = image
         self.animates = true
     }
+
+    override func mouseDown(with event: NSEvent) {
+        if event.modifierFlags.contains(.option) {
+            window?.performDrag(with: event)
+            if let windowFrame = window?.frame {
+                AppSettings.shared.rectX = windowFrame.origin.x
+                AppSettings.shared.rectY = windowFrame.origin.y
+            }
+        } else {
+            super.mouseDown(with: event)
+        }
+    }
 }
