@@ -6,6 +6,8 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
     private let animationEngine = AnimationEngine()
     private let settings = AppSettings.shared
     private var cancellables = Set<AnyCancellable>()
+    private var localFlagsMonitor: Any?
+    private var globalFlagsMonitor: Any?
 
     init(contentRect: NSRect) {
         overlayContentView = OverlayContentView(frame: contentRect)
@@ -30,6 +32,7 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
         updateEngineBounds()
         animationEngine.start()
         observeSettings()
+        startOptionKeyMonitor()
     }
 
     private func observeSettings() {
@@ -108,6 +111,27 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
             height: contentRect.height - spriteSize.height
         )
         animationEngine.updateBounds(insetRect)
+    }
+
+    private func startOptionKeyMonitor() {
+        localFlagsMonitor = NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
+            let optionHeld = event.modifierFlags.contains(.option)
+            self?.overlayContentView.setHighlightVisible(optionHeld)
+            return event
+        }
+        globalFlagsMonitor = NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
+            let optionHeld = event.modifierFlags.contains(.option)
+            self?.overlayContentView.setHighlightVisible(optionHeld)
+        }
+    }
+
+    deinit {
+        if let monitor = localFlagsMonitor {
+            NSEvent.removeMonitor(monitor)
+        }
+        if let monitor = globalFlagsMonitor {
+            NSEvent.removeMonitor(monitor)
+        }
     }
 
     // MARK: - AnimationEngineDelegate
