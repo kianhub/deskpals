@@ -15,13 +15,17 @@ struct MenuBarContentView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            TextField("Search Pokemon...", text: $searchText)
-                .textFieldStyle(.roundedBorder)
+            HStack {
+                TextField("Search Pokemon...", text: $searchText)
+                    .textFieldStyle(.roundedBorder)
+                Text("\(settings.selectedPokemonList.count)/\(AppSettings.maxPokemon)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
 
             List(filteredPokemon) { pokemon in
                 Button {
-                    settings.selectedPokemon = pokemon.name
-                    settings.selectedPokemonGen = pokemon.gen
+                    settings.togglePokemon(pokemon)
                 } label: {
                     HStack {
                         Text(pokemon.displayName)
@@ -29,7 +33,7 @@ struct MenuBarContentView: View {
                         Text("Gen \(pokemon.gen)")
                             .foregroundColor(.secondary)
                             .font(.caption)
-                        if settings.selectedPokemon == pokemon.name {
+                        if settings.isSelected(pokemon) {
                             Image(systemName: "checkmark")
                                 .foregroundColor(.accentColor)
                         }

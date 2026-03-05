@@ -2,14 +2,17 @@ import Foundation
 import Combine
 import ServiceManagement
 
+struct SelectedPokemon: Codable, Equatable, Hashable, Identifiable {
+    let name: String
+    let gen: Int
+    var id: String { name }
+}
+
 class AppSettings: ObservableObject {
     static let shared = AppSettings()
 
-    @Published var selectedPokemon: String {
-        didSet { UserDefaults.standard.set(selectedPokemon, forKey: "selectedPokemon") }
-    }
-    @Published var selectedPokemonGen: Int {
-        didSet { UserDefaults.standard.set(selectedPokemonGen, forKey: "selectedPokemonGen") }
+    @Published var selectedPokemonList: [SelectedPokemon] {
+        didSet { persistPokemonList() }
     }
     @Published var isShiny: Bool {
         didSet { UserDefaults.standard.set(isShiny, forKey: "isShiny") }
@@ -47,12 +50,12 @@ class AppSettings: ObservableObject {
         }
     }
 
+    static let maxPokemon = 10
+
     private init() {
         let defaults = UserDefaults.standard
 
         defaults.register(defaults: [
-            "selectedPokemon": "pikachu",
-            "selectedPokemonGen": 1,
             "isShiny": false,
             "rectWidth": 400.0,
             "rectHeight": 300.0,
@@ -63,8 +66,18 @@ class AppSettings: ObservableObject {
             "launchAtLogin": false
         ])
 
-        self.selectedPokemon = defaults.string(forKey: "selectedPokemon") ?? "pikachu"
-        self.selectedPokemonGen = defaults.integer(forKey: "selectedPokemonGen") == 0 ? 1 : defaults.integer(forKey: "selectedPokemonGen")
+        // Migrate from single selectedPokemon to list
+        if let data = defaults.data(forKey: "selectedPokemonList"),
+           let list = try? JSONDecoder().decode([SelectedPokemon].self, from: data),
+           !list.isEmpty {
+            self.selectedPokemonList = list
+        } else if let name = defaults.string(forKey: "selectedPokemon") {
+            let gen = defaults.integer(forKey: "selectedPokemonGen")
+            self.selectedPokemonList = [SelectedPokemon(name: name, gen: gen == 0 ? 1 : gen)]
+        } else {
+            self.selectedPokemonList = [SelectedPokemon(name: "pikachu", gen: 1)]
+        }
+
         self.isShiny = defaults.bool(forKey: "isShiny")
         self.rectWidth = defaults.double(forKey: "rectWidth")
         self.rectHeight = defaults.double(forKey: "rectHeight")
@@ -73,5 +86,25 @@ class AppSettings: ObservableObject {
         self.isVisible = defaults.object(forKey: "isVisible") == nil ? true : defaults.bool(forKey: "isVisible")
         self.spriteScale = defaults.double(forKey: "spriteScale") == 0 ? 2.0 : defaults.double(forKey: "spriteScale")
         self.launchAtLogin = defaults.bool(forKey: "launchAtLogin")
+    }
+
+    private func persistPokemonList() {
+        if let data = try? JSONEncoder().encode(selectedPokemonList) {
+            UserDefaults.standard.set(data, forKey: "selectedPokemonList")
+        }
+    }
+
+    func isSelected(_ pokemon: PokemonData) -> Bool {
+        selectedPokemonList.contains { $0.name == pokemon.name }
+    }
+
+    func togglePokemon(_ pokemon: PokemonData) {
+        if let index = selectedPokemonList.firstIndex(where: { $0.name == pokemon.name }) {
+            if selectedPokemonList.count > 1 {
+                selectedPokemonList.remove(at: index)
+            }
+        } else if selectedPokemonList.count < AppSettings.maxPokemon {
+            selectedPokemonList.append(SelectedPokemon(name: pokemon.name, gen: pokemon.gen))
+        }
     }
 }

@@ -1,7 +1,9 @@
 import AppKit
+import Combine
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var overlayWindow: OverlayWindow?
+    private var overlayWindows: [String: OverlayWindow] = [:]
+    private var cancellable: AnyCancellable?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSAppleEventManager.shared().setEventHandler(
@@ -12,15 +14,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
 
         let settings = AppSettings.shared
+        syncWindows(with: settings.selectedPokemonList)
+
+        cancellable = settings.$selectedPokemonList
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] list in
+                self?.syncWindows(with: list)
+            }
+    }
+
+    private func syncWindows(with list: [SelectedPokemon]) {
+        let settings = AppSettings.shared
         let frame = NSRect(
             x: settings.rectX,
             y: settings.rectY,
             width: settings.rectWidth,
             height: settings.rectHeight
         )
-        overlayWindow = OverlayWindow(contentRect: frame)
-        if settings.isVisible {
-            overlayWindow?.makeKeyAndOrderFront(nil)
+
+        let currentNames = Set(overlayWindows.keys)
+        let newNames = Set(list.map(\.name))
+
+        // Remove windows for deselected Pokemon
+        for name in currentNames.subtracting(newNames) {
+            if let window = overlayWindows.removeValue(forKey: name) {
+                window.stopAnimation()
+                window.orderOut(nil)
+            }
+        }
+
+        // Add windows for newly selected Pokemon
+        for pokemon in list where !currentNames.contains(pokemon.name) {
+            let window = OverlayWindow(contentRect: frame, pokemon: pokemon)
+            overlayWindows[pokemon.name] = window
+            if settings.isVisible {
+                window.makeKeyAndOrderFront(nil)
+            }
         }
     }
 
@@ -38,12 +68,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         switch host {
         case "pokemon":
-            if let name = queryItems.first(where: { $0.name == "name" })?.value {
-                settings.selectedPokemon = name
-            }
-            if let genString = queryItems.first(where: { $0.name == "gen" })?.value,
+            if let name = queryItems.first(where: { $0.name == "name" })?.value,
+               let genString = queryItems.first(where: { $0.name == "gen" })?.value,
                let gen = Int(genString) {
-                settings.selectedPokemonGen = gen
+                let pokemon = PokemonData(name: name, gen: gen)
+                settings.togglePokemon(pokemon)
             }
             if let shinyString = queryItems.first(where: { $0.name == "shiny" })?.value {
                 settings.isShiny = (shinyString == "true")

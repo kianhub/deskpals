@@ -2,6 +2,7 @@ import AppKit
 import Combine
 
 class OverlayWindow: NSWindow, AnimationEngineDelegate {
+    let pokemon: SelectedPokemon
     private let overlayContentView: OverlayContentView
     private let animationEngine = AnimationEngine()
     private let settings = AppSettings.shared
@@ -9,7 +10,8 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
     private var localFlagsMonitor: Any?
     private var globalFlagsMonitor: Any?
 
-    init(contentRect: NSRect) {
+    init(contentRect: NSRect, pokemon: SelectedPokemon) {
+        self.pokemon = pokemon
         overlayContentView = OverlayContentView(frame: contentRect)
 
         super.init(
@@ -31,18 +33,24 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
         applySpriteScale()
         loadSprite()
         updateEngineBounds()
+        // Randomize starting position within bounds
+        let maxX = max(0, contentRect.width - 48.0 * settings.spriteScale)
+        let maxY = max(0, contentRect.height - 48.0 * settings.spriteScale)
+        animationEngine.position = CGPoint(
+            x: Double.random(in: 0...maxX),
+            y: Double.random(in: 0...maxY)
+        )
         animationEngine.start()
         observeSettings()
         startOptionKeyMonitor()
     }
 
     private func observeSettings() {
-        // Pokemon or shiny changed: reload sprite
-        settings.$selectedPokemon
-            .combineLatest(settings.$isShiny, settings.$selectedPokemonGen)
+        // Shiny changed: reload sprite
+        settings.$isShiny
             .dropFirst()
             .receive(on: RunLoop.main)
-            .sink { [weak self] _, _, _ in
+            .sink { [weak self] _ in
                 self?.loadSprite()
             }
             .store(in: &cancellables)
@@ -93,8 +101,8 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
     private func loadSprite() {
         let isWalking = animationEngine.isWalking
         if let image = SpriteLoader.loadSprite(
-            name: settings.selectedPokemon,
-            gen: settings.selectedPokemonGen,
+            name: pokemon.name,
+            gen: pokemon.gen,
             isShiny: settings.isShiny,
             isWalking: isWalking
         ) {
@@ -112,6 +120,10 @@ class OverlayWindow: NSWindow, AnimationEngineDelegate {
             height: contentRect.height - spriteSize.height
         )
         animationEngine.updateBounds(insetRect)
+    }
+
+    func stopAnimation() {
+        animationEngine.stop()
     }
 
     private func startOptionKeyMonitor() {
