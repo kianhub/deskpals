@@ -43,10 +43,6 @@ Thumbs.db
 *.swo
 *~
 
-# Node (Raycast extension)
-pokeos-raycast/node_modules/
-pokeos-raycast/.build/
-
 # Temporary sprite download
 /tmp/vscode-pokemon/
 
@@ -58,6 +54,3 @@ pokeos-raycast/.build/
 # Provisioning profiles
 *.mobileprovision
 *.provisionprofile
-
-# Auto Run Docs
-# Auto Run Docs/

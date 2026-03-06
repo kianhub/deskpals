@@ -31,9 +31,17 @@ A native macOS menu bar app that puts an animated Pokemon sprite on your desktop
 - **Shift+Ctrl+Drag** to reposition the overlay anywhere on screen
 - **Launch at Login** support
 - **URL scheme** (`pokeos://`) for scripting and automation
-- **Raycast extension** for quick control without touching the menu bar
+- **[Raycast extension](https://www.raycast.com/kian/pokeos)** for quick control without touching the menu bar
 - **No network required** — all sprites are bundled in the app
 - **No Dock icon** — lives entirely in the menu bar
+
+---
+
+## Download
+
+Download the latest release from the [Releases page](https://github.com/kian/pokeOS/releases).
+
+> **Note:** The app is ad-hoc signed. On first launch, right-click the app and select **Open** to bypass Gatekeeper.
 
 ---
 
@@ -43,8 +51,6 @@ A native macOS menu bar app that puts an animated Pokemon sprite on your desktop
 
 - **macOS 13.0** (Ventura) or later
 - **Xcode 15.0+** with Swift 5
-- **Node.js 16+** (only if you want the Raycast extension)
-- **Raycast** (only for the Raycast extension)
 
 ### Building the App
 
@@ -120,7 +126,7 @@ open "pokeos://move?x=200&y=300"
 
 ## Raycast Extension
 
-The included Raycast extension provides three commands for quick access:
+A companion [Raycast extension](https://www.raycast.com/kian/pokeos) is available for quick control without touching the menu bar:
 
 | Command | Description | Type |
 |---------|-------------|------|
@@ -128,25 +134,9 @@ The included Raycast extension provides three commands for quick access:
 | **Toggle Visibility** | One-click show/hide | No-view (instant) |
 | **Resize Pokemon Area** | Form to set width and height | Form view |
 
-### Setting Up the Raycast Extension
+Install it from the [Raycast Store](https://www.raycast.com/kian/pokeos) or search "PokeOS" in Raycast.
 
-```bash
-cd pokeos-raycast
-npm install
-npm run dev    # Development mode with hot reload
-```
-
-This opens the extension in Raycast in development mode. The commands will appear in Raycast's command palette.
-
-**Available scripts:**
-
-```bash
-npm run build  # Production build
-npm run dev    # Development mode
-npm run lint   # Lint check
-```
-
-> The Raycast extension communicates with the main app via the `pokeos://` URL scheme, so the main app must be running.
+> The Raycast extension communicates with the main app via the `pokeos://` URL scheme, so pokeOS must be running.
 
 ---
 
@@ -208,14 +198,10 @@ pokeOS/
 │                   ├── default_walk_8fps.gif
 │                   ├── shiny_idle_8fps.gif
 │                   └── shiny_walk_8fps.gif
-├── pokeos-raycast/
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── src/
-│       ├── change-pokemon.tsx
-│       ├── toggle-visibility.tsx
-│       └── resize-window.tsx
-└── PLAN.md
+├── scripts/
+│   └── build-release.sh         # Build & package for distribution
+└── assets/
+    └── pokeos-icon-final.icns   # App icon
 ```
 
 ---
