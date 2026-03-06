@@ -16,7 +16,7 @@ struct MenuBarContentView: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                TextField("Search Pokemon...", text: $searchText)
+                TextField("Search Sprites...", text: $searchText)
                     .textFieldStyle(.roundedBorder)
                 Text("\(settings.selectedPokemonList.count)/\(AppSettings.maxPokemon)")
                     .font(.caption)
@@ -50,7 +50,7 @@ struct MenuBarContentView: View {
             HStack {
                 Toggle("Shiny", isOn: $settings.isShiny)
                 Spacer()
-                Toggle("Show Pokemon", isOn: $settings.isVisible)
+                Toggle("Show Sprites", isOn: $settings.isVisible)
             }
 
             Toggle("Separate Windows", isOn: $settings.separateWindows)
