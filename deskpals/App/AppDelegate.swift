@@ -112,7 +112,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func handleURLEvent(_ event: NSAppleEventDescriptor, withReply reply: NSAppleEventDescriptor) {
         guard let urlString = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue,
               let url = URL(string: urlString),
-              url.scheme == "pokeos",
+              url.scheme == "deskpals",
               let host = url.host else {
             return
         }

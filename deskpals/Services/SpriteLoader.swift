@@ -1,10 +1,10 @@
 import AppKit
 
 struct SpriteLoader {
-    /// Custom sprites live in ~/Library/Application Support/pokeOS/CustomSprites/{name}/
+    /// Custom sprites live in ~/Library/Application Support/deskpals/CustomSprites/{name}/
     static let customSpritesDirectory: URL = {
         let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        return appSupport.appendingPathComponent("pokeOS/CustomSprites", isDirectory: true)
+        return appSupport.appendingPathComponent("deskpals/CustomSprites", isDirectory: true)
     }()
 
     static func loadSprite(name: String, gen: Int, isShiny: Bool, isWalking: Bool) -> NSImage? {
