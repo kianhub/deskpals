@@ -4,7 +4,7 @@ struct MenuBarContentView: View {
     @ObservedObject var settings: AppSettings
     @State private var searchText = ""
 
-    private let pokemonList: [PokemonData] = SpriteLoader.loadPokemonList()
+    @State private var pokemonList: [PokemonData] = SpriteLoader.loadPokemonList()
 
     private var filteredPokemon: [PokemonData] {
         if searchText.isEmpty {
@@ -30,8 +30,8 @@ struct MenuBarContentView: View {
                     HStack {
                         Text(pokemon.displayName)
                         Spacer()
-                        Text("Gen \(pokemon.gen)")
-                            .foregroundColor(.secondary)
+                        Text(pokemon.genLabel)
+                            .foregroundColor(pokemon.isCustom ? .purple : .secondary)
                             .font(.caption)
                         if settings.isSelected(pokemon) {
                             Image(systemName: "checkmark")
@@ -82,6 +82,27 @@ struct MenuBarContentView: View {
             Divider()
 
             VStack(alignment: .leading, spacing: 6) {
+                Text("Custom Sprites")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                HStack {
+                    Button("Open Sprites Folder") {
+                        let url = SpriteLoader.ensureCustomSpritesDirectory()
+                        NSWorkspace.shared.open(url)
+                    }
+                    Spacer()
+                    Button {
+                        reloadPokemonList()
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                    .help("Reload custom sprites")
+                }
+            }
+
+            Divider()
+
+            VStack(alignment: .leading, spacing: 6) {
                 Text("System")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -96,5 +117,9 @@ struct MenuBarContentView: View {
         }
         .padding()
         .frame(width: 280)
+    }
+
+    private func reloadPokemonList() {
+        pokemonList = SpriteLoader.loadPokemonList()
     }
 }

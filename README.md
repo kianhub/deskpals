@@ -140,6 +140,91 @@ Install it from the [Raycast Store](https://www.raycast.com/kian/pokeos) or sear
 
 ---
 
+## Adding Your Own Custom Sprites
+
+You can add **any character or sprite** to pokeOS — it doesn't have to be a Pokemon! Here's how:
+
+### What You Need
+
+- **One or more animated GIF files** of your character (pixel art works best)
+- Each GIF should be small (around 32x32 to 64x64 pixels)
+- Transparent backgrounds are recommended so the sprite blends with your desktop
+
+### Step-by-Step Guide
+
+**1. Open the Custom Sprites folder**
+
+Click the pokeOS menu bar icon, then click **"Open Sprites Folder"**. This opens a folder on your Mac where custom sprites live.
+
+> The folder is located at `~/Library/Application Support/pokeOS/CustomSprites/`
+
+**2. Create a folder for your character**
+
+Inside the Custom Sprites folder, create a **new folder** with your character's name. Use lowercase letters, no spaces (use hyphens or underscores instead).
+
+```
+CustomSprites/
+  └── my-character/
+```
+
+**3. Add your GIF files**
+
+Put your animated GIFs inside the folder. The naming convention is:
+
+| File | Required? | Description |
+|------|-----------|-------------|
+| `default_idle_8fps.gif` | **Yes** | Standing still animation |
+| `default_walk_8fps.gif` | No | Walking animation |
+| `shiny_idle_8fps.gif` | No | Alternate "shiny" idle |
+| `shiny_walk_8fps.gif` | No | Alternate "shiny" walk |
+
+Only `default_idle_8fps.gif` is required. If a walk animation is missing, the idle one is used instead. If shiny variants are missing, the default ones are used.
+
+Your folder should look like this:
+
+```
+CustomSprites/
+  └── my-character/
+        ├── default_idle_8fps.gif    (required)
+        ├── default_walk_8fps.gif    (optional)
+        ├── shiny_idle_8fps.gif      (optional)
+        └── shiny_walk_8fps.gif      (optional)
+```
+
+**4. Reload in pokeOS**
+
+Click the **reload button** (circular arrow icon) next to "Open Sprites Folder" in the menu bar. Your custom character will now appear in the list labeled **"Custom"** in purple.
+
+**5. Select your character**
+
+Find your character in the Pokemon list and click it. It will start walking around your desktop!
+
+### Tips
+
+- **GIF frame rate:** The `8fps` in the filename is just a naming convention — your GIFs can be any frame rate
+- **Sprite size:** The sprite is displayed at 48x48 points by default, scaled by your Sprite Scale setting (1x–5x)
+- **Multiple characters:** Add as many custom sprite folders as you like
+- **Sharing sprites:** To share a custom sprite with someone, just send them the folder — they drop it into their own Custom Sprites folder
+
+### Example: Adding a Custom Cat Sprite
+
+```bash
+# 1. Open the folder (or navigate manually)
+open ~/Library/Application\ Support/pokeOS/CustomSprites/
+
+# 2. Create a folder for your sprite
+mkdir my-cat
+
+# 3. Copy your GIFs into it
+cp cat_idle.gif my-cat/default_idle_8fps.gif
+cp cat_walk.gif my-cat/default_walk_8fps.gif
+
+# 4. Click the reload button in pokeOS menu bar
+# 5. Select "My-cat" from the list — done!
+```
+
+---
+
 ## Architecture
 
 ```
