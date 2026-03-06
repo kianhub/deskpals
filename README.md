@@ -1,18 +1,18 @@
 <div align='center'>
 
-# pokeOS
+# deskpals
 
-![pokeOS-showcase](https://github.com/user-attachments/assets/7f472b1e-4f7a-47ef-bda1-cb8f28378d3c)
+![deskpals-showcase](https://github.com/user-attachments/assets/7f472b1e-4f7a-47ef-bda1-cb8f28378d3c)
 
 </div>
 
 <p align="center">
 
-A native macOS menu bar app that puts an animated Pokemon sprite on your desktop as a virtual pet. The sprite walks, idles, and bounces around a transparent overlay window that floats above all your other windows. Inspired by [vscode-pokemon](https://github.com/jakobhoeg/vscode-pokemon), but at the OS level — your Pokemon companion follows you everywhere, not just in your editor.
+A native macOS menu bar app that puts animated sprite companions on your desktop. Ships with 565 Pokemon sprites and supports custom characters — add any GIF you like. Inspired by [vscode-pokemon](https://github.com/jakobhoeg/vscode-pokemon), but at the OS level — your companion follows you everywhere, not just in your editor.
 
 </p>
 <div align="center">
-  
+
 ![macOS](https://img.shields.io/badge/macOS-13.0%2B-blue)
 ![Swift](https://img.shields.io/badge/Swift-5-orange)
 ![Pokemon](https://img.shields.io/badge/Pokemon-565-red)
@@ -25,13 +25,14 @@ A native macOS menu bar app that puts an animated Pokemon sprite on your desktop
 
 - **565 Pokemon** from Generations 1–4 with animated sprites
 - **Shiny variants** for every Pokemon
+- **Custom sprites** — add any character as an animated GIF
 - **Physics-based movement** — walking, idling, wall bouncing, smooth acceleration, and vertical bobbing
 - **Transparent overlay** — always-on-top window with click-through support (clicks pass through to apps below)
 - **Menu bar UI** — searchable Pokemon list, shiny toggle, size/scale sliders, visibility toggle
 - **Shift+Ctrl+Drag** to reposition the overlay anywhere on screen
 - **Launch at Login** support
-- **URL scheme** (`pokeos://`) for scripting and automation
-- **[Raycast extension](https://www.raycast.com/kian/pokeos)** for quick control without touching the menu bar
+- **URL scheme** (`deskpals://`) for scripting and automation
+- **[Raycast extension](https://www.raycast.com/kian/deskpals)** for quick control without touching the menu bar
 - **No network required** — all sprites are bundled in the app
 - **No Dock icon** — lives entirely in the menu bar
 
@@ -39,7 +40,7 @@ A native macOS menu bar app that puts an animated Pokemon sprite on your desktop
 
 ## Download
 
-Download the latest release from the [Releases page](https://github.com/kian/pokeOS/releases).
+Download the latest release from the [Releases page](https://github.com/kian/deskpals/releases).
 
 > **Note:** The app is ad-hoc signed. On first launch, right-click the app and select **Open** to bypass Gatekeeper.
 
@@ -57,7 +58,7 @@ Download the latest release from the [Releases page](https://github.com/kian/pok
 **From Xcode (recommended):**
 
 ```bash
-open pokeOS.xcodeproj
+open deskpals.xcodeproj
 ```
 
 Then press **Cmd+R** to build and run.
@@ -65,14 +66,14 @@ Then press **Cmd+R** to build and run.
 **From the command line:**
 
 ```bash
-xcodebuild -project pokeOS.xcodeproj -scheme pokeOS build
+xcodebuild -project deskpals.xcodeproj -scheme deskpals build
 ```
 
 To run the built app outside Xcode, sign it ad-hoc:
 
 ```bash
-codesign --force --deep --sign - build/Release/pokeOS.app
-open build/Release/pokeOS.app
+codesign --force --deep --sign - build/Release/deskpals.app
+open build/Release/deskpals.app
 ```
 
 ### First Launch
@@ -88,7 +89,7 @@ open build/Release/pokeOS.app
 
 ### Menu Bar Controls
 
-Click the pokeOS menu bar icon to access:
+Click the deskpals menu bar icon to access:
 
 | Setting | Description |
 |---------|-------------|
@@ -97,7 +98,7 @@ Click the pokeOS menu bar icon to access:
 | **Width / Height** | Resize the overlay area (200–2000px) |
 | **Sprite Scale** | Scale the sprite from 1x to 5x |
 | **Show / Hide** | Toggle overlay visibility |
-| **Launch at Login** | Start pokeOS automatically on login |
+| **Launch at Login** | Start deskpals automatically on login |
 
 ### Repositioning
 
@@ -105,28 +106,28 @@ Hold **Shift+Ctrl** and **drag** the overlay window to move it anywhere on scree
 
 ### URL Scheme
 
-Control pokeOS from Terminal, scripts, or other apps using the `pokeos://` URL scheme:
+Control deskpals from Terminal, scripts, or other apps using the `deskpals://` URL scheme:
 
 ```bash
 # Change Pokemon
-open "pokeos://pokemon?name=charizard&gen=1"
-open "pokeos://pokemon?name=umbreon&gen=2&shiny=true"
+open "deskpals://pokemon?name=charizard&gen=1"
+open "deskpals://pokemon?name=umbreon&gen=2&shiny=true"
 
 # Toggle visibility
-open "pokeos://toggle"
+open "deskpals://toggle"
 
 # Resize overlay
-open "pokeos://resize?width=600&height=400"
+open "deskpals://resize?width=600&height=400"
 
 # Reposition overlay
-open "pokeos://move?x=200&y=300"
+open "deskpals://move?x=200&y=300"
 ```
 
 ---
 
 ## Raycast Extension
 
-A companion [Raycast extension](https://www.raycast.com/kian/pokeos) is available for quick control without touching the menu bar:
+A companion [Raycast extension](https://www.raycast.com/kian/deskpals) is available for quick control without touching the menu bar:
 
 | Command | Description | Type |
 |---------|-------------|------|
@@ -134,15 +135,15 @@ A companion [Raycast extension](https://www.raycast.com/kian/pokeos) is availabl
 | **Toggle Visibility** | One-click show/hide | No-view (instant) |
 | **Resize Pokemon Area** | Form to set width and height | Form view |
 
-Install it from the [Raycast Store](https://www.raycast.com/kian/pokeos) or search "PokeOS" in Raycast.
+Install it from the [Raycast Store](https://www.raycast.com/kian/deskpals) or search "deskpals" in Raycast.
 
-> The Raycast extension communicates with the main app via the `pokeos://` URL scheme, so pokeOS must be running.
+> The Raycast extension communicates with the main app via the `deskpals://` URL scheme, so deskpals must be running.
 
 ---
 
 ## Adding Your Own Custom Sprites
 
-You can add **any character or sprite** to pokeOS — it doesn't have to be a Pokemon! Here's how:
+You can add **any character or sprite** to deskpals — it doesn't have to be a Pokemon! Here's how:
 
 ### What You Need
 
@@ -154,9 +155,9 @@ You can add **any character or sprite** to pokeOS — it doesn't have to be a Po
 
 **1. Open the Custom Sprites folder**
 
-Click the pokeOS menu bar icon, then click **"Open Sprites Folder"**. This opens a folder on your Mac where custom sprites live.
+Click the deskpals menu bar icon, then click **"Open Sprites Folder"**. This opens a folder on your Mac where custom sprites live.
 
-> The folder is located at `~/Library/Application Support/pokeOS/CustomSprites/`
+> The folder is located at `~/Library/Application Support/deskpals/CustomSprites/`
 
 **2. Create a folder for your character**
 
@@ -191,7 +192,7 @@ CustomSprites/
         └── shiny_walk_8fps.gif      (optional)
 ```
 
-**4. Reload in pokeOS**
+**4. Reload in deskpals**
 
 Click the **reload button** (circular arrow icon) next to "Open Sprites Folder" in the menu bar. Your custom character will now appear in the list labeled **"Custom"** in purple.
 
@@ -210,7 +211,7 @@ Find your character in the Pokemon list and click it. It will start walking arou
 
 ```bash
 # 1. Open the folder (or navigate manually)
-open ~/Library/Application\ Support/pokeOS/CustomSprites/
+open ~/Library/Application\ Support/deskpals/CustomSprites/
 
 # 2. Create a folder for your sprite
 mkdir my-cat
@@ -219,7 +220,7 @@ mkdir my-cat
 cp cat_idle.gif my-cat/default_idle_8fps.gif
 cp cat_walk.gif my-cat/default_walk_8fps.gif
 
-# 4. Click the reload button in pokeOS menu bar
+# 4. Click the reload button in deskpals menu bar
 # 5. Select "My-cat" from the list — done!
 ```
 
@@ -228,7 +229,7 @@ cp cat_walk.gif my-cat/default_walk_8fps.gif
 ## Architecture
 
 ```
-pokeOSApp (@main)
+deskpalsApp (@main)
   └── MenuBarExtra (.window style)
         └── MenuBarContentView (SwiftUI settings UI)
 
@@ -238,10 +239,10 @@ AppDelegate (NSApplicationDelegate)
   │     │     └── SpriteImageView (animated GIF)
   │     └── AnimationEngine (60fps movement & physics)
   ├── AppSettings (ObservableObject, UserDefaults persistence)
-  └── URL Scheme Handler (pokeos://)
+  └── URL Scheme Handler (deskpals://)
 
 Raycast Extension (TypeScript)
-  └── Commands → open pokeos:// URLs → AppDelegate handles
+  └── Commands → open deskpals:// URLs → AppDelegate handles
 ```
 
 **Data flow:** Settings changes in the menu bar UI publish via Combine. The overlay window observes these changes and updates the sprite, position, size, or visibility in real time. The animation engine ticks at 60fps, driving position updates with velocity-based physics.
@@ -253,11 +254,11 @@ Raycast Extension (TypeScript)
 ## Project Structure
 
 ```
-pokeOS/
-├── pokeOS.xcodeproj/
-├── pokeOS/
+deskpals/
+├── deskpals.xcodeproj/
+├── deskpals/
 │   ├── App/
-│   │   ├── pokeOSApp.swift              # Entry point, MenuBarExtra
+│   │   ├── deskpalsApp.swift              # Entry point, MenuBarExtra
 │   │   └── AppDelegate.swift            # Window management, URL scheme
 │   ├── Models/
 │   │   ├── AppSettings.swift            # Settings persistence (UserDefaults)
@@ -286,7 +287,7 @@ pokeOS/
 ├── scripts/
 │   └── build-release.sh         # Build & package for distribution
 └── assets/
-    └── pokeos-icon-final.icns   # App icon
+    └── deskpals-icon.icns       # App icon
 ```
 
 ---
