@@ -3,14 +3,19 @@ import SwiftUI
 struct MenuBarContentView: View {
     @ObservedObject var settings: AppSettings
     @State private var searchText = ""
+    @State private var showActiveOnly = false
 
     @State private var pokemonList: [PokemonData] = SpriteLoader.loadPokemonList()
 
     private var filteredPokemon: [PokemonData] {
-        if searchText.isEmpty {
-            return pokemonList
+        var result = pokemonList
+        if showActiveOnly {
+            result = result.filter { settings.isSelected($0) }
         }
-        return pokemonList.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        if !searchText.isEmpty {
+            result = result.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+        }
+        return result
     }
 
     var body: some View {
@@ -18,6 +23,14 @@ struct MenuBarContentView: View {
             HStack {
                 TextField("Search Sprites...", text: $searchText)
                     .textFieldStyle(.roundedBorder)
+                Button {
+                    showActiveOnly.toggle()
+                } label: {
+                    Image(systemName: showActiveOnly ? "star.fill" : "star")
+                        .foregroundColor(showActiveOnly ? .accentColor : .secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Show active sprites only")
                 Text("\(settings.selectedPokemonList.count)/\(AppSettings.maxPokemon)")
                     .font(.caption)
                     .foregroundColor(.secondary)
