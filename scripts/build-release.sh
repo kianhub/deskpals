@@ -22,6 +22,7 @@ BUILD_DIR="$PROJECT_DIR/build"
 APP_NAME="deskpals"
 SCHEME="deskpals"
 SIGNING_IDENTITY="${DEVELOPER_ID_APPLICATION:-}"
+TEAM_ID="${APPLE_TEAM_ID:-}"
 NOTARY_PROFILE="${NOTARY_PROFILE:-deskpals-notary}"
 
 if [ -z "$SIGNING_IDENTITY" ]; then
@@ -48,6 +49,7 @@ xcodebuild \
   ONLY_ACTIVE_ARCH=NO \
   CODE_SIGN_STYLE=Manual \
   CODE_SIGN_IDENTITY="$SIGNING_IDENTITY" \
+  DEVELOPMENT_TEAM="$TEAM_ID" \
   | tail -20
 
 echo "==> Exporting app from archive..."

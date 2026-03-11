@@ -41,6 +41,14 @@ jobs:
           # Add to search list
           security list-keychains -d user -s $KEYCHAIN_PATH login.keychain-db
 
+          # Debug: verify certificate was imported correctly
+          echo "==> Keychain search list:"
+          security list-keychains -d user
+          echo "==> Available codesigning identities:"
+          security find-identity -v -p codesigning $KEYCHAIN_PATH
+          echo "==> All codesigning identities (all keychains):"
+          security find-identity -v -p codesigning
+
       - name: Store notarization credentials
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -59,6 +67,7 @@ jobs:
       - name: Build, sign, notarize, and package
         env:
           DEVELOPER_ID_APPLICATION: ${{ secrets.DEVELOPER_ID_APPLICATION }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           NOTARY_PROFILE: deskpals-notary
         run: |
           chmod +x scripts/build-release.sh
