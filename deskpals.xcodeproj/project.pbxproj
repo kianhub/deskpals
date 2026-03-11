@@ -10,6 +10,8 @@
 		A10000000000000000000001 /* deskpalsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* deskpalsApp.swift */; };
 		A10000000000000000000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* AppDelegate.swift */; };
 		A10000000000000000000003 /* OverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* OverlayWindow.swift */; };
+		A10000000000000000000004 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* Sprites */; };
+		A10000000000000000000005 /* pokemon.json in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* pokemon.json */; };
 		A10000000000000000000006 /* SpriteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* SpriteLoader.swift */; };
 		A10000000000000000000007 /* PokemonData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* PokemonData.swift */; };
 		A10000000000000000000008 /* SpriteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* SpriteImageView.swift */; };
@@ -17,10 +19,9 @@
 		A1000000000000000000000A /* AnimationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* AnimationEngine.swift */; };
 		A1000000000000000000000B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000C /* AppSettings.swift */; };
 		A1000000000000000000000C /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000D /* MenuBarContentView.swift */; };
-		A10000000000000000000004 /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* Sprites */; };
-		A10000000000000000000005 /* pokemon.json in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* pokemon.json */; };
 		A1000000000000000000000D /* deskpals-icon.icon in Resources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000E /* deskpals-icon.icon */; };
 		A1000000000000000000000E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000F /* Assets.xcassets */; };
+		A1000000000000000000000F /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* AppIcon.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		A20000000000000000000002 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A20000000000000000000003 /* OverlayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindow.swift; sourceTree = "<group>"; };
 		A20000000000000000000004 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20000000000000000000011 /* deskpals.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = deskpals.entitlements; sourceTree = "<group>"; };
 		A20000000000000000000005 /* Sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sprites; sourceTree = "<group>"; };
 		A20000000000000000000006 /* pokemon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pokemon.json; sourceTree = "<group>"; };
 		A20000000000000000000007 /* SpriteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteLoader.swift; sourceTree = "<group>"; };
@@ -39,6 +41,7 @@
 		A2000000000000000000000D /* MenuBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContentView.swift; sourceTree = "<group>"; };
 		A2000000000000000000000E /* deskpals-icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "deskpals-icon.icon"; path = "assets/deskpals-icon.icon"; sourceTree = SOURCE_ROOT; };
 		A2000000000000000000000F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A20000000000000000000012 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
 		A20000000000000000000010 /* deskpals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskpals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -53,7 +56,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A40000000000000000000001 /* = Begin typing your first search query */ = {
+		A40000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
 				A40000000000000000000002 /* deskpals */,
@@ -124,6 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				A20000000000000000000004 /* Info.plist */,
+				A20000000000000000000011 /* deskpals.entitlements */,
+				A20000000000000000000012 /* AppIcon.icns */,
 				A20000000000000000000005 /* Sprites */,
 				A20000000000000000000006 /* pokemon.json */,
 				A2000000000000000000000F /* Assets.xcassets */,
@@ -193,6 +198,7 @@
 				A10000000000000000000005 /* pokemon.json in Resources */,
 				A1000000000000000000000D /* deskpals-icon.icon in Resources */,
 				A1000000000000000000000E /* Assets.xcassets in Resources */,
+				A1000000000000000000000F /* AppIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,12 +345,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "deskpals-icon";
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = "deskpals/Resources/deskpals.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9ZTE89T3KC;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = deskpals/Resources/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright 2025 deskpals. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -363,12 +372,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "deskpals-icon";
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = "deskpals/Resources/deskpals.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9ZTE89T3KC;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = deskpals/Resources/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright 2025 deskpals. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -405,7 +417,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
 	};
 	rootObject = A90000000000000000000001 /* Project object */;
 }

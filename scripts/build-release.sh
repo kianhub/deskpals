@@ -44,7 +44,9 @@ xcodebuild \
   -configuration Release \
   -archivePath "$BUILD_DIR/$APP_NAME.xcarchive" \
   archive \
+  ARCHS=arm64 \
   ONLY_ACTIVE_ARCH=NO \
+  CODE_SIGN_STYLE=Manual \
   CODE_SIGN_IDENTITY="$SIGNING_IDENTITY" \
   | tail -20
 
@@ -78,25 +80,27 @@ codesign --verify --deep --strict "$BUILD_DIR/$APP_NAME.app"
 codesign -dv --verbose=2 "$BUILD_DIR/$APP_NAME.app"
 
 echo "==> Creating DMG..."
-if command -v create-dmg &> /dev/null; then
-  create-dmg \
-    --volname "$APP_NAME $VERSION" \
-    --volicon "$BUILD_DIR/$APP_NAME.app/Contents/Resources/AppIcon.icns" \
-    --window-pos 200 120 \
-    --window-size 600 400 \
-    --icon-size 100 \
-    --icon "$APP_NAME.app" 150 190 \
-    --app-drop-link 450 190 \
-    --no-internet-enable \
-    "$BUILD_DIR/$APP_NAME-$VERSION.dmg" \
-    "$BUILD_DIR/$APP_NAME.app"
-else
-  echo "  create-dmg not found, creating DMG with hdiutil..."
-  hdiutil create -volname "$APP_NAME $VERSION" \
-    -srcfolder "$BUILD_DIR/$APP_NAME.app" \
-    -ov -format UDZO \
-    "$BUILD_DIR/$APP_NAME-$VERSION.dmg"
+# Locate the app icon for the DMG volume icon
+VOLICON="$BUILD_DIR/$APP_NAME.app/Contents/Resources/AppIcon.icns"
+VOLICON_FLAG=""
+if [ -f "$VOLICON" ]; then
+  VOLICON_FLAG="--volicon $VOLICON"
 fi
+
+# create-dmg returns exit code 2 when it succeeds but "could not set icon"
+# which is non-fatal, so we allow exit code 2
+create-dmg \
+  --volname "$APP_NAME $VERSION" \
+  $VOLICON_FLAG \
+  --window-pos 200 120 \
+  --window-size 600 400 \
+  --icon-size 100 \
+  --icon "$APP_NAME.app" 150 190 \
+  --app-drop-link 450 190 \
+  --no-internet-enable \
+  "$BUILD_DIR/$APP_NAME-$VERSION.dmg" \
+  "$BUILD_DIR/$APP_NAME.app" \
+  || test $? -eq 2
 
 echo "==> Notarizing DMG..."
 xcrun notarytool submit "$BUILD_DIR/$APP_NAME-$VERSION.dmg" \
@@ -107,7 +111,8 @@ echo "==> Stapling notarization ticket..."
 xcrun stapler staple "$BUILD_DIR/$APP_NAME-$VERSION.dmg"
 
 echo "==> Verifying notarization..."
-spctl --assess --type open --context context:primary-signature "$BUILD_DIR/$APP_NAME-$VERSION.dmg"
+xcrun stapler validate "$BUILD_DIR/$APP_NAME-$VERSION.dmg"
+spctl --assess --type execute -v "$BUILD_DIR/$APP_NAME.app"
 
 echo ""
 echo "==> Build complete!"
