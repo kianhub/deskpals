@@ -80,7 +80,7 @@ jobs:
           draft: true
           generate_release_notes: true
           files: |
-            build/deskpals-${{ steps.version.outputs.VERSION }}.dmg
+            build/deskpals.dmg
 
       - name: Cleanup keychain
         if: always()

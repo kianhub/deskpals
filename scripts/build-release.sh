@@ -100,25 +100,25 @@ create-dmg \
   --icon "$APP_NAME.app" 150 190 \
   --app-drop-link 450 190 \
   --no-internet-enable \
-  "$BUILD_DIR/$APP_NAME-$VERSION.dmg" \
+  "$BUILD_DIR/$APP_NAME.dmg" \
   "$BUILD_DIR/$APP_NAME.app" \
   || test $? -eq 2
 
 echo "==> Notarizing DMG..."
-xcrun notarytool submit "$BUILD_DIR/$APP_NAME-$VERSION.dmg" \
+xcrun notarytool submit "$BUILD_DIR/$APP_NAME.dmg" \
   --keychain-profile "$NOTARY_PROFILE" \
   --wait
 
 echo "==> Stapling notarization ticket..."
-xcrun stapler staple "$BUILD_DIR/$APP_NAME-$VERSION.dmg"
+xcrun stapler staple "$BUILD_DIR/$APP_NAME.dmg"
 
 echo "==> Verifying notarization..."
-xcrun stapler validate "$BUILD_DIR/$APP_NAME-$VERSION.dmg"
+xcrun stapler validate "$BUILD_DIR/$APP_NAME.dmg"
 spctl --assess --type execute -v "$BUILD_DIR/$APP_NAME.app"
 
 echo ""
 echo "==> Build complete!"
-echo "    DMG: $BUILD_DIR/$APP_NAME-$VERSION.dmg"
+echo "    DMG: $BUILD_DIR/$APP_NAME.dmg"
 echo ""
 echo "This build is signed with Developer ID and notarized."
 echo "Users can open it without Gatekeeper warnings."
